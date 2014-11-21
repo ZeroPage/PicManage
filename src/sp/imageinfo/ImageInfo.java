@@ -109,7 +109,7 @@ public class ImageInfo implements Serializable {
 	}
 
 //Check whether given file is the same file with the object
-	public boolean isSameFime(File fileDir) {
+	public boolean isSameFile(File fileDir) {
 		try {
 			return checkMD5(fileDir);
 		} catch (NoSuchAlgorithmException | IOException e) {
