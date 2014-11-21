@@ -24,7 +24,8 @@ public class ImageTag {
 	
 //delete a tag by giving index of it
 	public void DeleteTag(int index) {
-		//To be filled
+		tagList.remove(index);
+		SaveTag();
 	}
 	
 	private void SaveTag() {
