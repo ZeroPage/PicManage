@@ -1,9 +1,10 @@
 package sp.imageinfo;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ImageTag {
+public class ImageTag implements Serializable {
 	private ArrayList<String> tagList = new ArrayList<String>();
 	private String taggedImage;
 	

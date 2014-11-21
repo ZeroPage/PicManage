@@ -1,11 +1,12 @@
 package sp.imageinfo;
 
 import java.io.File;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
 
-public class ImageFile {
+public class ImageFile implements Serializable {
 	private String fileDir;
 	private String fileName;
 	private String recentUpdate;

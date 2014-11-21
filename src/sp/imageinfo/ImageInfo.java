@@ -3,14 +3,14 @@ package sp.imageinfo;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 //Sample Directory : C:\\Users\\Julian\\workspace\\ImageInfo\\sample
 
-public class ImageInfo {
+public class ImageInfo implements Serializable {
 	final private String folderDir = "YOUR\\PATH"; // Write your own sample Directory
 	private String md5;
 	private String memo;

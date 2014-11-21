@@ -4,11 +4,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 
-public class ImageMeta {
+public class ImageMeta implements Serializable {
 	public ImageMeta(String fileDir) {		
 		//Coming Soon...
 	}
