@@ -12,12 +12,13 @@ public class ImageFile implements Serializable {
 	private String recentUpdate;
 	private File file;
 
-	public ImageFile(String fileDir) throws Exception {
-		this.fileDir = fileDir;
-		this.InitData();
+	public ImageFile(File file) throws Exception {
+		this.file = file;
+		this.fileDir = file.getPath();
+		this.initData();
 	}
 
-	private void InitData() throws Exception {
+	private void initData() throws Exception {
 		this.file = new File(this.fileDir);
 		FileTime recentTime = Files.getLastModifiedTime(Paths.get(fileDir));
 		recentUpdate = recentTime.toString();
@@ -25,8 +26,16 @@ public class ImageFile implements Serializable {
 	}
 
 //Return the name and the date(time) of the most recent update
-	public String[] GetData() {
+	public String[] getData() {
 		String[] fileData = {fileName,recentUpdate};
 		return fileData;
+	}
+	
+	public File getFile() {
+		return this.file;
+	}
+	
+	public String toString() {
+		return this.fileName;
 	}
 }

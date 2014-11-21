@@ -6,34 +6,34 @@ import java.util.ArrayList;
 
 public class ImageTag implements Serializable {
 	private ArrayList<String> tagList = new ArrayList<String>();
-	private String taggedImage;
+	private File taggedImage;
 	
-	public ImageTag(String imageDir) {
-		taggedImage = imageDir;
-		this.LoadTag();
+	public ImageTag(File inputFile) {
+		taggedImage = inputFile;
+		this.loadTag();
 	}
 
 //Return Arraylist of tags
-	public ArrayList<String> GetTag() {
+	public ArrayList<String> getTag() {
 		return this.tagList;
 	}
 	
 //Add new tag
-	public void AddTag(String newTag) {
+	public void addTag(String newTag) {
 		this.tagList.add(newTag);
 	}
 	
 //delete a tag by giving index of it
-	public void DeleteTag(int index) {
+	public void deleteTag(int index) {
 		tagList.remove(index);
-		SaveTag();
+		saveTag();
 	}
 	
-	private void SaveTag() {
+	private void saveTag() {
 		//To be filled
 	}
 	
-	private void LoadTag() {
+	private void loadTag() {
 		//To be filled
 	}
 }

@@ -10,7 +10,7 @@ import java.util.Iterator;
 import javax.imageio.ImageIO;
 
 public class ImageMeta implements Serializable {
-	public ImageMeta(String fileDir) {		
+	public ImageMeta(File inputFile) {		
 		//Coming Soon...
 	}
 }

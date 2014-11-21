@@ -11,62 +11,73 @@ import java.security.NoSuchAlgorithmException;
 //Sample Directory : C:\\Users\\Julian\\workspace\\ImageInfo\\sample
 
 public class ImageInfo implements Serializable {
-	final private String folderDir = "YOUR\\PATH"; // Write your own sample Directory
+//	final private String folderDir = "YOUR\\PATH"; // Write your own sample Directory
 	private String md5;
 	private String memo;
 	private ImageFile fileInfo;
 	private ImageMeta metaInfo;
 	private ImageTag tagInfo;
 	
-	File folder;
-	File[] fileList;
+//	File folder;
+//	File[] fileList;
 	
-	private static ArrayList<ImageInfo> imageList = new ArrayList<ImageInfo>();
+//	private static ArrayList<ImageInfo> imageList = new ArrayList<ImageInfo>();
 	
 //Use this constructor in ImageManager
-	public ImageInfo() throws Exception {
-		folder = new File(folderDir);
-		fileList = folder.listFiles();
-		
-		for(File file : fileList) {
-			if(file.getName().endsWith(".jpeg")) {
-				imageList.add(new ImageInfo(folderDir+file.getName()));
-			}
-		}
-	}
+//	public ImageInfo() throws Exception {
+//		folder = new File(folderDir);
+//		fileList = folder.listFiles();
+//		
+//		for(File file : fileList) {
+//			if(file.getName().endsWith(".jpeg")) {
+//				imageList.add(new ImageInfo(folderDir+file.getName()));
+//			}
+//		}
+//	}
 //This constructor is designed only for usage in default constructor
-	public ImageInfo(String fileDir) throws Exception {
-		fileInfo = new ImageFile(fileDir);
-		metaInfo = new ImageMeta(fileDir);
-		SetMD5(fileDir);
-		tagInfo = new ImageTag(fileDir);
-	}
-//Get the list of image objects
-	public ArrayList<ImageInfo> GetImageList() {
-		return imageList;
-	}
+//	public ImageInfo(String fileDir) throws Exception {
+//		fileInfo = new ImageFile(fileDir);
+//		metaInfo = new ImageMeta(fileDir);
+//		SetMD5(fileDir);
+//		tagInfo = new ImageTag(fileDir);
+//	}
 	
+	public ImageInfo(File imageFile) throws Exception {
+		fileInfo = new ImageFile(imageFile);
+		metaInfo = new ImageMeta(imageFile);
+		setMD5(imageFile);
+		tagInfo = new ImageTag(imageFile);
+		
+	}
 //Handle Data: Memo
 //return memo
-	public String GetMemo() {
+	public String getMemo() {
 		return memo;
 	}
 
 //replace the memo with new given string
-	public void UpdateMemo(String newMemo) {
+	public void updateMemo(String newMemo) {
 		memo = newMemo;
 	}
 	
-	private void SaveMemo() {
+	private void saveMemo() {
 		//To be filled
 	}
 	
-	private void LoadMemo() {
+	private void loadMemo() {
 		//To be filled
+	}
+	
+	public File getFile() {
+		return fileInfo.getFile();
+	}
+	
+	public String toString() {
+		return fileInfo.toString();
 	}
 	
 //Handle Data: MD5
-	private void SetMD5(String fileDir) throws NoSuchAlgorithmException, IOException {
+	private void setMD5(File fileDir) throws NoSuchAlgorithmException, IOException {
 		MessageDigest md = MessageDigest.getInstance("MD5");
 		FileInputStream stream = new FileInputStream(fileDir);
 		byte[] data = new byte[1024];
@@ -88,7 +99,7 @@ public class ImageInfo implements Serializable {
 	}
 
 //Check whether given file is the same file with the object
-	public boolean CheckMD5(String fileDir) throws NoSuchAlgorithmException, IOException {
+	public boolean checkMD5(String fileDir) throws NoSuchAlgorithmException, IOException {
 		MessageDigest md = MessageDigest.getInstance("MD5");
 		FileInputStream stream = new FileInputStream(fileDir);
 		byte[] data = new byte[1024];
