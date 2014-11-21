@@ -1,6 +1,7 @@
 package sp.imageinfo;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -18,9 +19,14 @@ public class ImageFile implements Serializable {
 		this.initData();
 	}
 
-	private void initData() throws Exception {
+	private void initData() {
 		this.file = new File(this.fileDir);
-		FileTime recentTime = Files.getLastModifiedTime(Paths.get(fileDir));
+		FileTime recentTime=FileTime.fromMillis(0);
+		try {
+			recentTime = Files.getLastModifiedTime(Paths.get(fileDir));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		recentUpdate = recentTime.toString();
 		this.fileName = file.getName();
 	}

@@ -42,10 +42,20 @@ public class ImageInfo implements Serializable {
 //		tagInfo = new ImageTag(fileDir);
 //	}
 	
-	public ImageInfo(File imageFile) throws Exception {
-		fileInfo = new ImageFile(imageFile);
+	public ImageInfo(File imageFile) {
+		try {
+			fileInfo = new ImageFile(imageFile);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		metaInfo = new ImageMeta(imageFile);
-		setMD5(imageFile);
+		try {
+			setMD5(imageFile);
+		} catch (NoSuchAlgorithmException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		tagInfo = new ImageTag(imageFile);
 		
 	}
@@ -99,7 +109,16 @@ public class ImageInfo implements Serializable {
 	}
 
 //Check whether given file is the same file with the object
-	public boolean checkMD5(String fileDir) throws NoSuchAlgorithmException, IOException {
+	public boolean isSameFime(File fileDir) {
+		try {
+			return checkMD5(fileDir);
+		} catch (NoSuchAlgorithmException | IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	private boolean checkMD5(File fileDir) throws NoSuchAlgorithmException, IOException {
 		MessageDigest md = MessageDigest.getInstance("MD5");
 		FileInputStream stream = new FileInputStream(fileDir);
 		byte[] data = new byte[1024];
