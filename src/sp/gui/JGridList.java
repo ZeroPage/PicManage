@@ -64,7 +64,6 @@ public class JGridList extends JPanel {
 
     private class SelectionHandler implements ListSelectionListener {
 
-        @Override
         public void valueChanged(ListSelectionEvent e) {
             if (!e.getValueIsAdjusting()) {
                 System.out.println(Arrays.toString(list.getSelectedIndices()));
