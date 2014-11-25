@@ -70,13 +70,14 @@ public class ImageInfo implements Serializable {
 		memo = newMemo;
 	}
 	
-	private void saveMemo() {
+/*	private void saveMemo() {
 		//To be filled
 	}
 	
 	private void loadMemo() {
 		//To be filled
 	}
+*/
 	
 	public File getFile() {
 		return fileInfo.getFile();

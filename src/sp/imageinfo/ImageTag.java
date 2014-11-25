@@ -10,7 +10,7 @@ public class ImageTag implements Serializable {
 	
 	public ImageTag(File inputFile) {
 		taggedImage = inputFile;
-		this.loadTag();
+		//this.loadTag();
 	}
 
 //Return Arraylist of tags
@@ -26,14 +26,15 @@ public class ImageTag implements Serializable {
 //delete a tag by giving index of it
 	public void deleteTag(int index) {
 		tagList.remove(index);
-		saveTag();
+		//saveTag();
 	}
 	
-	private void saveTag() {
+	/*private void saveTag() {
 		//To be filled
 	}
 	
 	private void loadTag() {
 		//To be filled
 	}
+	*/
 }
