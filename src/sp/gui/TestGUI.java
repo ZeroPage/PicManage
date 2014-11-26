@@ -8,6 +8,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import sp.imageinfo.ImageInfo;
 
@@ -25,9 +26,10 @@ public class TestGUI extends JFrame {
 		setTitle("TEST");
 		setSize(600, 600);
 		setLayout(new BorderLayout());
+		setMinimumSize(new Dimension(600, 300));
 		
 		rightPanel = new JPanel();
-		rightPanel.setPreferredSize(new Dimension(300, 500));
+		rightPanel.setPreferredSize(new Dimension(300, 300));
 		add(rightPanel, BorderLayout.EAST);
 		
 		noSelectPanel = new NoSelectPanel();
