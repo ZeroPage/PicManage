@@ -62,8 +62,8 @@ public class ImageManager implements Serializable {
 		ImageInfo imageInfo = new ImageInfo(file);
 		ImageList.add(imageInfo);
 	}
-	public void deleteImage() {
-		
+	public void deleteImage(ImageInfo imageInfo) {
+		ImageList.remove(imageInfo);
 	}
 	public void sortImageList() {
 		
