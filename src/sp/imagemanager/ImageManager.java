@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import sp.imageinfo.ImageInfo;
 
 public class ImageManager implements Serializable {
+	private static final long serialVersionUID = -466251720671992919L;
 	private ArrayList<ImageInfo> ImageList;
-	private static final long serialVersionUID = 1L;
 	private String filePath;
 	
 	public ImageManager() {
