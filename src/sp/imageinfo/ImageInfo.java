@@ -16,7 +16,7 @@ public class ImageInfo implements Serializable {
 	private String memo;
 	private ImageFile fileInfo;
 	private ImageMeta metaInfo;
-	private ImageTag tagInfo;
+	private ArrayList<String> tagInfo;
 	
 //	File folder;
 //	File[] fileList;
@@ -56,7 +56,7 @@ public class ImageInfo implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		tagInfo = new ImageTag(imageFile);
+		tagInfo = new ArrayList<String>();
 		
 	}
 //Handle Data: Memo
