@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -16,47 +17,22 @@ public class ImageInfo implements Serializable {
 	private String memo;
 	private ImageFile fileInfo;
 	private ImageMeta metaInfo;
-	private ArrayList<String> tagInfo;
-	
-//	File folder;
-//	File[] fileList;
-	
-//	private static ArrayList<ImageInfo> imageList = new ArrayList<ImageInfo>();
-	
-//Use this constructor in ImageManager
-//	public ImageInfo() throws Exception {
-//		folder = new File(folderDir);
-//		fileList = folder.listFiles();
-//		
-//		for(File file : fileList) {
-//			if(file.getName().endsWith(".jpeg")) {
-//				imageList.add(new ImageInfo(folderDir+file.getName()));
-//			}
-//		}
-//	}
-//This constructor is designed only for usage in default constructor
-//	public ImageInfo(String fileDir) throws Exception {
-//		fileInfo = new ImageFile(fileDir);
-//		metaInfo = new ImageMeta(fileDir);
-//		SetMD5(fileDir);
-//		tagInfo = new ImageTag(fileDir);
-//	}
+//	private ArrayList<String> tagInfo;
+	private HashSet<String> tagInfo;
 	
 	public ImageInfo(File imageFile) {
 		try {
 			fileInfo = new ImageFile(imageFile);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		metaInfo = new ImageMeta(imageFile);
 		try {
 			setMD5(imageFile);
 		} catch (NoSuchAlgorithmException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		tagInfo = new ArrayList<String>();
+		tagInfo = new HashSet<String>();
 		
 	}
 //Handle Data: Memo
