@@ -1,16 +1,46 @@
 package sp.imageinfo;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Iterator;
 
-import javax.imageio.ImageIO;
+import com.drew.imaging.jpeg.*;
+import com.drew.metadata.*;
 
 public class ImageMeta implements Serializable {
-	public ImageMeta(File inputFile) {		
-		//Coming Soon...
+	private File imageFile;
+	private Metadata metaInfo;
+	private Collection<String> metaTag;
+	
+	public ImageMeta() {
+	}
+	
+	public ImageMeta(File file) {
+		imageFile = file;
+		try {
+			initMetadata();
+		} catch (Exception e) {
+			// TODO
+			e.printStackTrace();
+		}
+	}
+	
+	private void initMetadata() throws JpegProcessingException, IOException {
+		metaInfo = JpegMetadataReader.readMetadata(imageFile);
+		Iterator dir = metaInfo.getDirectories().iterator();
+		while(dir.hasNext()) {
+			Directory directory = (Directory) dir.next();
+			Iterator tags = directory.getTags().iterator();
+			while(tags.hasNext()) {
+				Tag tag = (Tag) tags.next();
+				metaTag.add(tag.toString());
+			}
+		}
+	}
+	
+	public Collection<String> getMeta() {
+		return metaTag;
 	}
 }
