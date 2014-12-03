@@ -14,28 +14,29 @@ import sp.imageinfo.ImageInfo;
 
 public class ImageManager implements Serializable {
 	private static final long serialVersionUID = -466251720671992919L;
-	private ArrayList<ImageInfo> ImageList;
+	private ArrayList<ImageInfo> imageList;
 	private String filePath;
 	
 	public ImageManager() {
-		ImageList = new ArrayList<ImageInfo>();
+		imageList = new ArrayList<ImageInfo>();
 		filePath = "./data.dat";
 		loadImageList();
+	}
+	public ArrayList<ImageInfo> getImageList() {
+		return this.imageList;
 	}
 	public void saveImageList() {
 		try {
 			FileOutputStream fileOut = new FileOutputStream(filePath);
 			ObjectOutputStream oOut = new ObjectOutputStream(fileOut);
 			
-			oOut.writeObject(ImageList);
+			oOut.writeObject(imageList);
 			
 			oOut.close();
 			fileOut.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -45,7 +46,7 @@ public class ImageManager implements Serializable {
 			FileInputStream fileIn = new FileInputStream(filePath);
 			ObjectInputStream oIn = new ObjectInputStream(fileIn);
 			
-			ImageList = (ArrayList<ImageInfo>) oIn.readObject();
+			imageList = (ArrayList<ImageInfo>) oIn.readObject();
 			
 			fileIn.close();
 			oIn.close();
@@ -60,13 +61,12 @@ public class ImageManager implements Serializable {
 	}
 	public void addImage(File file) {
 		ImageInfo imageInfo = new ImageInfo(file);
-		ImageList.add(imageInfo);
+		imageList.add(imageInfo);
 	}
 	public void deleteImage(ImageInfo imageInfo) {
-		ImageList.remove(imageInfo);
+		imageList.remove(imageInfo);
 	}
 	public void sortImageList() {
 		
 	}
-	
 }
