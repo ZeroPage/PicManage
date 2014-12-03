@@ -15,19 +15,16 @@ import sp.imageinfo.ImageInfo;
 public class ImageManager implements Serializable {
 	private static final long serialVersionUID = -466251720671992919L;
 	private ArrayList<ImageInfo> imageList;
-	private String filePath;
 	
 	public ImageManager() {
 		imageList = new ArrayList<ImageInfo>();
-		filePath = "./data.dat";
-		loadImageList();
 	}
 	public ArrayList<ImageInfo> getImageList() {
 		return this.imageList;
 	}
-	public void saveImageList() {
+	public void saveImageList(File file) {
 		try {
-			FileOutputStream fileOut = new FileOutputStream(filePath);
+			FileOutputStream fileOut = new FileOutputStream(file);
 			ObjectOutputStream oOut = new ObjectOutputStream(fileOut);
 			
 			oOut.writeObject(imageList);
@@ -41,9 +38,9 @@ public class ImageManager implements Serializable {
 		}
 		
 	}
-	public void loadImageList() {
+	public void loadImageList(File file) {
 		try {
-			FileInputStream fileIn = new FileInputStream(filePath);
+			FileInputStream fileIn = new FileInputStream(file);
 			ObjectInputStream oIn = new ObjectInputStream(fileIn);
 			
 			imageList = (ArrayList<ImageInfo>) oIn.readObject();
@@ -67,6 +64,6 @@ public class ImageManager implements Serializable {
 		imageList.remove(imageInfo);
 	}
 	public void sortImageList() {
-		
+		System.out.println("\ub0a0\uc544 \uc624\ub974\ub77c \uc8fc\uc791\uc774\uc5ec. \ud658\uc0c1\uc758 \ub0a0\uac1c \ub0a0\uc544 \uc624\ub974\ub77c~");
 	}
 }
