@@ -18,6 +18,7 @@ public class ImageManager implements Serializable {
 	
 	public ImageManager() {
 		imageList = new ArrayList<ImageInfo>();
+		loadImageList();
 	}
 	public ArrayList<ImageInfo> getImageList() {
 		return this.imageList;
@@ -42,9 +43,9 @@ public class ImageManager implements Serializable {
 		try {
 			FileInputStream fileIn = new FileInputStream(file);
 			ObjectInputStream oIn = new ObjectInputStream(fileIn);
-			
+
 			imageList = (ArrayList<ImageInfo>) oIn.readObject();
-			
+
 			fileIn.close();
 			oIn.close();
 		} catch (FileNotFoundException e) {
@@ -54,7 +55,7 @@ public class ImageManager implements Serializable {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 	public void addImage(File file) {
 		ImageInfo imageInfo = new ImageInfo(file);
@@ -64,6 +65,5 @@ public class ImageManager implements Serializable {
 		imageList.remove(imageInfo);
 	}
 	public void sortImageList() {
-		System.out.println("\ub0a0\uc544 \uc624\ub974\ub77c \uc8fc\uc791\uc774\uc5ec. \ud658\uc0c1\uc758 \ub0a0\uac1c \ub0a0\uc544 \uc624\ub974\ub77c~");
 	}
 }
