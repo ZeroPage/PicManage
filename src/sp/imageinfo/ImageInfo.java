@@ -117,4 +117,10 @@ public class ImageInfo implements Serializable {
 			return true;
 		return false;
 	}
+	
+	public boolean equals(ImageInfo obj) {
+		if(this.md5.equals(obj.md5))
+			return true;
+		else return false;
+	}
 }
