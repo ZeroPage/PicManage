@@ -18,7 +18,6 @@ public class ImageManager implements Serializable {
 	
 	public ImageManager() {
 		imageList = new ArrayList<ImageInfo>();
-		loadImageList();
 	}
 	public ArrayList<ImageInfo> getImageList() {
 		return this.imageList;
