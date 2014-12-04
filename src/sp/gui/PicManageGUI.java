@@ -4,14 +4,23 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.drew.metadata.Tag;
+import sp.gui.gridlist.ImageInfoListener;
+import sp.gui.gridlist.JGridList;
+import sp.gui.gridlist.ImageInfoListListener;
+import sp.gui.selectpanel.JSelectPanel;
 import sp.imageinfo.ImageInfo;
 import sp.imagemanager.ImageManager;
 
 public class PicManageGUI extends JFrame {
+	public static final String FILE_SUFFIX = "pm";
+
 	private JPanel leftPanel;
 	private JComboBox<String> comboBox;
 	private JGridList list;
@@ -47,10 +56,12 @@ public class PicManageGUI extends JFrame {
 	private void initChooser() {
 		fileChooser = new JFileChooser();
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fileChooser.setFileFilter(new FileNameExtensionFilter("Picture Manage", FILE_SUFFIX));
 
 		imageChooser = new JFileChooser();
 		imageChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		imageChooser.setMultiSelectionEnabled(true);
+		imageChooser.setFileFilter(new FileNameExtensionFilter("Image", "JPG"));
 
 	}
 
@@ -67,6 +78,7 @@ public class PicManageGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				imageChooser.showOpenDialog(PicManageGUI.this);
+
 				File[] selectedFiles = imageChooser.getSelectedFiles();
 
 				for (File file : selectedFiles) {
@@ -81,19 +93,29 @@ public class PicManageGUI extends JFrame {
 		loadMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
 				fileChooser.showOpenDialog(PicManageGUI.this);
-				manager.loadImageList(fileChooser.getSelectedFile());
-				list.setItems(manager.getImageList());
+
+				File selectedFile = fileChooser.getSelectedFile();
+				if (selectedFile != null) {
+					manager.loadImageList(selectedFile);
+					list.setItems(manager.getImageList());
+				}
 			}
 		});
 
 		saveMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
-				fileChooser.showOpenDialog(PicManageGUI.this);
-				manager.saveImageList(fileChooser.getSelectedFile());
+				fileChooser.showSaveDialog(PicManageGUI.this);
+
+				File selectedFile = fileChooser.getSelectedFile();
+				if (selectedFile != null) {
+					if (!selectedFile.getAbsolutePath().endsWith("." + FILE_SUFFIX)) {
+						selectedFile = new File(selectedFile.getAbsolutePath() + "." + FILE_SUFFIX);
+					}
+
+					manager.saveImageList(selectedFile);
+				}
 			}
 		});
 
@@ -108,8 +130,19 @@ public class PicManageGUI extends JFrame {
 
 	private void initRight() {
 		rightPanel = new JSelectPanel();
-		add(rightPanel, BorderLayout.EAST);
 
+		rightPanel.addRemoveButtonListener(new ImageInfoListListener() {
+			@Override
+			public void action(List<ImageInfo> infoList) {
+				for (ImageInfo info : infoList) {
+					manager.deleteImage(info);
+				}
+
+				list.setItems(manager.getImageList());
+			}
+		});
+
+		add(rightPanel, BorderLayout.EAST);
 	}
 
 	private void initLeft() {
@@ -121,17 +154,24 @@ public class PicManageGUI extends JFrame {
 		leftPanel.add(comboBox, BorderLayout.NORTH);
 
 		list = new JGridList();
-		list.addSelectListener(new SelectListener() {
+		list.addSelectListener(new ImageInfoListListener() {
 			@Override
-			public void onChange(List<ImageInfo> list) {
+			public void action(List<ImageInfo> list) {
 				rightPanel.update(list);
 			}
 		});
 
-		list.addClickListener(new ClickListener() {
+		list.addClickListener(new ImageInfoListener() {
 			@Override
-			public void onClick(ImageInfo info) {
+			public void action(ImageInfo info) {
 				System.out.println(info);
+				Collection<Tag> meta = info.getMeta();
+
+				if (meta != null) {
+					for (Tag t : meta) {
+						System.out.println(t.getTagName() + ": " + t.getDescription());
+					}
+				}
 			}
 		});
 

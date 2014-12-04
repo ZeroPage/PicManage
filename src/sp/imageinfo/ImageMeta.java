@@ -3,6 +3,7 @@ package sp.imageinfo;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -20,6 +21,7 @@ public class ImageMeta implements Serializable {
 	
 	public ImageMeta(File file) {
 		imageFile = file;
+		metaTag = new ArrayList<>();
 		try {
 			initMetadata();
 		} catch (Exception e) {

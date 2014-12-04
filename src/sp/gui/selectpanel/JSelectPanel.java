@@ -1,5 +1,6 @@
-package sp.gui;
+package sp.gui.selectpanel;
 
+import sp.gui.gridlist.ImageInfoListListener;
 import sp.imageinfo.ImageInfo;
 
 import javax.swing.*;
@@ -20,6 +21,10 @@ public class JSelectPanel extends JPanel {
         multiSelectPanel = new MultiSelectPanel();
 
         add(noSelectPanel);
+    }
+
+    public void addRemoveButtonListener(ImageInfoListListener listener) {
+        multiSelectPanel.addRemoveListener(listener);
     }
 
     public void update(List<ImageInfo> list) {
