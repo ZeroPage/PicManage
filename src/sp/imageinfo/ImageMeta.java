@@ -12,7 +12,8 @@ import com.drew.metadata.*;
 public class ImageMeta implements Serializable {
 	private File imageFile;
 	private Metadata metaInfo;
-	private Collection<String> metaTag;
+//	private Collection<String> metaTag;
+	private Collection<Tag> metaTag;
 	
 	public ImageMeta() {
 	}
@@ -36,12 +37,12 @@ public class ImageMeta implements Serializable {
 			while(tags.hasNext()) {
 				Tag tag = (Tag) tags.next();
 				if(tag!=null)
-					metaTag.add(tag.toString());
+					metaTag.add(tag);
 			}
 		}
 	}
 	
-	public Collection<String> getMeta() {
+	public Collection<Tag> getMeta() {
 		return metaTag;
 	}
 }

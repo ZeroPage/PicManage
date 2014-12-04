@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import com.drew.metadata.Tag;
+
 //Sample Directory : C:\\Users\\Julian\\workspace\\ImageInfo\\sample
 
 public class ImageInfo implements Serializable {
@@ -56,7 +58,7 @@ public class ImageInfo implements Serializable {
 	}
 */
 	
-	public Collection<String> getMeta() {
+	public Collection<Tag> getMeta() {
 		return metaInfo.getMeta();
 	}
 	
