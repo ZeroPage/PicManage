@@ -35,7 +35,8 @@ public class ImageMeta implements Serializable {
 			Iterator tags = directory.getTags().iterator();
 			while(tags.hasNext()) {
 				Tag tag = (Tag) tags.next();
-				metaTag.add(tag.toString());
+				if(tag!=null)
+					metaTag.add(tag.toString());
 			}
 		}
 	}
