@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -54,6 +55,10 @@ public class ImageInfo implements Serializable {
 		//To be filled
 	}
 */
+	
+	public Collection<String> getMeta() {
+		return metaInfo.getMeta();
+	}
 	
 	public File getFile() {
 		return fileInfo.getFile();
