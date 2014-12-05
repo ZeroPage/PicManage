@@ -8,7 +8,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
+import com.drew.imaging.jpeg.JpegProcessingException;
 import sp.imageinfo.ImageInfo;
 
 public class ImageManager implements Serializable {
@@ -31,17 +33,21 @@ public class ImageManager implements Serializable {
 		oOut.close();
 		fileOut.close();
 	}
-	public void loadImageList(File file) throws IOException, ClassNotFoundException {
+	public void loadImageList(File file) throws IOException, ClassNotFoundException, JpegProcessingException {
 
 		FileInputStream fileIn = new FileInputStream(file);
 		ObjectInputStream oIn = new ObjectInputStream(fileIn);
 
 		imageList = (ArrayList<ImageInfo>) oIn.readObject();
 
+		ListIterator<ImageInfo> it = imageList.listIterator();
+		while(it.hasNext()) {
+			it.next().initMeta();
+		}
 		fileIn.close();
 		oIn.close();
 	}
-	public void addImage(File file) {
+	public void addImage(File file) throws JpegProcessingException, IOException{
 		ImageInfo imageInfo = new ImageInfo(file);
 		imageList.add(imageInfo);
 	}
