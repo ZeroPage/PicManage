@@ -13,7 +13,6 @@ import com.drew.metadata.*;
 public class ImageMeta implements Serializable {
 	private File imageFile;
 	private Metadata metaInfo;
-//	private Collection<String> metaTag;
 	private Collection<Tag> metaTag;
 	
 	public ImageMeta() {

@@ -12,15 +12,11 @@ import java.security.NoSuchAlgorithmException;
 
 import com.drew.metadata.Tag;
 
-//Sample Directory : C:\\Users\\Julian\\workspace\\ImageInfo\\sample
-
 public class ImageInfo implements Serializable {
-//	final private String folderDir = "YOUR\\PATH"; // Write your own sample Directory
 	private String md5;
 	private String memo;
 	private ImageFile fileInfo;
 	private ImageMeta metaInfo;
-//	private ArrayList<String> tagInfo;
 	private HashSet<String> tagInfo;
 	
 	public ImageInfo(File imageFile) {
