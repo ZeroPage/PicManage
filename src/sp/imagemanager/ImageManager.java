@@ -2,7 +2,6 @@ package sp.imagemanager;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -22,38 +21,25 @@ public class ImageManager implements Serializable {
 	public ArrayList<ImageInfo> getImageList() {
 		return this.imageList;
 	}
-	public void saveImageList(File file) {
-		try {
-			FileOutputStream fileOut = new FileOutputStream(file);
-			ObjectOutputStream oOut = new ObjectOutputStream(fileOut);
+	public void saveImageList(File file) throws IOException {
+
+		FileOutputStream fileOut = new FileOutputStream(file);
+		ObjectOutputStream oOut = new ObjectOutputStream(fileOut);
 			
-			oOut.writeObject(imageList);
+		oOut.writeObject(imageList);
 			
-			oOut.close();
-			fileOut.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+		oOut.close();
+		fileOut.close();
 	}
-	public void loadImageList(File file) {
-		try {
-			FileInputStream fileIn = new FileInputStream(file);
-			ObjectInputStream oIn = new ObjectInputStream(fileIn);
+	public void loadImageList(File file) throws IOException, ClassNotFoundException {
 
-			imageList = (ArrayList<ImageInfo>) oIn.readObject();
+		FileInputStream fileIn = new FileInputStream(file);
+		ObjectInputStream oIn = new ObjectInputStream(fileIn);
 
-			fileIn.close();
-			oIn.close();
-		} catch (FileNotFoundException e) {
-			return;
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+		imageList = (ArrayList<ImageInfo>) oIn.readObject();
+
+		fileIn.close();
+		oIn.close();
 	}
 	public void addImage(File file) {
 		ImageInfo imageInfo = new ImageInfo(file);
