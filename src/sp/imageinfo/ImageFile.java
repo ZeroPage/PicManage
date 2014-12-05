@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
+import java.util.Date;
 
 public class ImageFile implements Serializable {
 	private String fileDir;
@@ -39,5 +40,11 @@ public class ImageFile implements Serializable {
 	
 	public String toString() {
 		return this.fileName;
+	}
+	
+	public Date getFileDate() {
+		@SuppressWarnings("deprecation")
+		Date date = new Date(this.recentUpdate);
+		return date;
 	}
 }

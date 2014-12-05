@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -33,6 +34,21 @@ public class ImageInfo implements Serializable {
 	
 	public void initMeta() throws JpegProcessingException, IOException {
 		metaInfo = new ImageMeta(fileInfo.getFile());
+	}
+	
+	public String getFileName() {
+		return fileInfo.toString();
+	}
+	
+	public Date getFileTime() {
+		@SuppressWarnings("deprecation")
+		Date date;
+		if(metaInfo.getDate()!=null) {
+			date = metaInfo.getDate();
+		} else {
+			date = fileInfo.getFileDate();
+		}
+		return date;
 	}
 	
 	public String getMemo() {

@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Date;
 
 import com.drew.imaging.jpeg.*;
 import com.drew.metadata.*;
@@ -40,5 +41,26 @@ public class ImageMeta implements Serializable {
 	
 	public Collection<Tag> getMeta() {
 		return metaTag;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public Date getDate() {
+		ArrayList<String> timeData = new ArrayList<String>();
+		Date date = new Date();
+		for(Tag tag : metaTag) {
+			if(tag.getTagName().contains("Date/Time")) {
+				timeData.add(tag.getDescription());
+			}
+		}
+		if(timeData.isEmpty()) {
+			return null;
+		} else {
+			for(String str : timeData) {
+				if(date.after(new Date(str))) {
+					date = new Date(str);
+				}
+			}
+		}
+		return date;
 	}
 }
