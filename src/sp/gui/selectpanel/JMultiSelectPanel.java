@@ -11,7 +11,7 @@ import javax.swing.*;
 import sp.gui.gridlist.ImageInfoListListener;
 import sp.imageinfo.ImageInfo;
 
-public class MultiSelectPanel extends JPanel {
+public class JMultiSelectPanel extends JPanel {
 	private JLabel label;
 	private JButton removeButton;
 
@@ -19,7 +19,7 @@ public class MultiSelectPanel extends JPanel {
 
 	private MultiSelectPanelRemoveListener removeListener;
 	
-	public MultiSelectPanel() {
+	public JMultiSelectPanel() {
 		super();
 		setLayout(new BorderLayout());
 		

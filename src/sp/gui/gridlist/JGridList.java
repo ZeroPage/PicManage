@@ -74,7 +74,7 @@ public class JGridList extends JScrollPane {
 			int newWidth = (int) (ratio * image.getWidth());
 			int newHeight = (int) (ratio * image.getHeight());
 
-			ImageIcon resizeImage = new ImageIcon(image.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH));
+			ImageIcon resizeImage = new ImageIcon(image.getScaledInstance(newWidth, newHeight, Image.SCALE_FAST));
 			thumbnails.put(info, resizeImage);
 		}
 

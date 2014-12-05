@@ -4,12 +4,14 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.drew.imaging.jpeg.JpegProcessingException;
 import com.drew.metadata.Tag;
 import sp.gui.gridlist.ImageInfoListener;
 import sp.gui.gridlist.JGridList;
@@ -38,10 +40,11 @@ public class PicManageGUI extends JFrame {
 	private JFileChooser fileChooser;
 
 	private ImageManager manager;
+	private List<ImageInfo> infoList;
 	public PicManageGUI(ImageManager manager) {
 		this.manager = manager;
 
-		setTitle("TEST");
+		setTitle("PicManager");
 		setSize(600, 600);
 		setLayout(new BorderLayout());
 		setMinimumSize(new Dimension(600, 300));
@@ -56,12 +59,12 @@ public class PicManageGUI extends JFrame {
 	private void initChooser() {
 		fileChooser = new JFileChooser();
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		fileChooser.setFileFilter(new FileNameExtensionFilter("Picture Manage", FILE_SUFFIX));
+		fileChooser.setFileFilter(new FileNameExtensionFilter("Picture Manage (*.pm)", FILE_SUFFIX));
 
 		imageChooser = new JFileChooser();
 		imageChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		imageChooser.setMultiSelectionEnabled(true);
-		imageChooser.setFileFilter(new FileNameExtensionFilter("Image", "JPG"));
+		imageChooser.setFileFilter(new FileNameExtensionFilter("Image (*.jpg)", "JPG"));
 
 	}
 
@@ -82,10 +85,14 @@ public class PicManageGUI extends JFrame {
 				File[] selectedFiles = imageChooser.getSelectedFiles();
 
 				for (File file : selectedFiles) {
-					manager.addImage(file);
+					try {
+						manager.addImage(file);
+					} catch (JpegProcessingException | IOException e1) {
+						JOptionPane.showMessageDialog(PicManageGUI.this, "Failed to open " + file.getName(), "ERROR", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 
-				list.setItems(manager.getImageList());
+				updateLeft();
 
 			}
 		});
@@ -93,12 +100,21 @@ public class PicManageGUI extends JFrame {
 		loadMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				fileChooser.showOpenDialog(PicManageGUI.this);
+				int result = fileChooser.showOpenDialog(PicManageGUI.this);
 
-				File selectedFile = fileChooser.getSelectedFile();
-				if (selectedFile != null) {
-					manager.loadImageList(selectedFile);
-					list.setItems(manager.getImageList());
+
+				if (result == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = fileChooser.getSelectedFile();
+					try {
+						manager.loadImageList(selectedFile);
+					} catch (ClassNotFoundException e1) {
+						JOptionPane.showMessageDialog(PicManageGUI.this, "Deprecated *.pm file.", "ERROR", JOptionPane.ERROR_MESSAGE);
+						return;
+					} catch (IOException | JpegProcessingException e1) {
+						JOptionPane.showMessageDialog(PicManageGUI.this, "Failed to load.", "ERROR", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					updateLeft();
 				}
 			}
 		});
@@ -106,15 +122,20 @@ public class PicManageGUI extends JFrame {
 		saveMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				fileChooser.showSaveDialog(PicManageGUI.this);
+				int result = fileChooser.showSaveDialog(PicManageGUI.this);
 
-				File selectedFile = fileChooser.getSelectedFile();
-				if (selectedFile != null) {
+
+				if (result == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = fileChooser.getSelectedFile();
 					if (!selectedFile.getAbsolutePath().endsWith("." + FILE_SUFFIX)) {
 						selectedFile = new File(selectedFile.getAbsolutePath() + "." + FILE_SUFFIX);
 					}
 
-					manager.saveImageList(selectedFile);
+					try {
+						manager.saveImageList(selectedFile);
+					} catch (IOException e1) {
+						JOptionPane.showMessageDialog(PicManageGUI.this, "Failed to save.", "ERROR", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		});
@@ -138,7 +159,7 @@ public class PicManageGUI extends JFrame {
 					manager.deleteImage(info);
 				}
 
-				list.setItems(manager.getImageList());
+				updateLeft();
 			}
 		});
 
@@ -157,7 +178,7 @@ public class PicManageGUI extends JFrame {
 		list.addSelectListener(new ImageInfoListListener() {
 			@Override
 			public void action(List<ImageInfo> list) {
-				rightPanel.update(list);
+				updateRight(list);
 			}
 		});
 
@@ -172,10 +193,22 @@ public class PicManageGUI extends JFrame {
 						System.out.println(t.getTagName() + ": " + t.getDescription());
 					}
 				}
+
+				new DetailViewGUI(PicManageGUI.this, infoList, infoList.indexOf(info)).setVisible(true);
+
 			}
 		});
 
-		list.setItems(manager.getImageList());
+		updateLeft();
 		leftPanel.add(list, BorderLayout.CENTER);
+	}
+
+	private void updateLeft() {
+		infoList = manager.getImageList();
+		list.setItems(infoList);
+	}
+
+	private void updateRight(List<ImageInfo> list) {
+		rightPanel.update(list);
 	}
 }

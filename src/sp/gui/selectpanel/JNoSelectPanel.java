@@ -3,10 +3,10 @@ package sp.gui.selectpanel;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class NoSelectPanel extends JPanel {
+public class JNoSelectPanel extends JPanel {
 	private JLabel label;
 	
-	public NoSelectPanel() {
+	public JNoSelectPanel() {
 		super();
 		
 		label = new JLabel("select photo from left");

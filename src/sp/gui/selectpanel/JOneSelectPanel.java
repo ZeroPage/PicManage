@@ -12,12 +12,12 @@ import javax.swing.JPanel;
 
 import sp.imageinfo.ImageInfo;
 
-public class OneSelectPanel extends JPanel {
+public class JOneSelectPanel extends JPanel {
 	private JLabel label;
 	private JLabel hintLabel;
 	public static final int THUMB_SIZE = 300;
 	
-	public OneSelectPanel() {
+	public JOneSelectPanel() {
 		super();
 		setLayout(new BorderLayout());
 		
