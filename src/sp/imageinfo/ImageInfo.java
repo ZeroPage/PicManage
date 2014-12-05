@@ -38,25 +38,18 @@ public class ImageInfo implements Serializable {
 		tagInfo = new HashSet<String>();
 		
 	}
-//Handle Data: Memo
-//return memo
+	
 	public String getMemo() {
 		return memo;
 	}
 
-//replace the memo with new given string
 	public void updateMemo(String newMemo) {
 		memo = newMemo;
 	}
 	
-/*	private void saveMemo() {
-		//To be filled
+	public HashSet<String> getTag() {
+		return tagInfo;
 	}
-	
-	private void loadMemo() {
-		//To be filled
-	}
-*/
 	
 	public Collection<Tag> getMeta() {
 		return metaInfo.getMeta();
@@ -70,7 +63,6 @@ public class ImageInfo implements Serializable {
 		return fileInfo.toString();
 	}
 	
-//Handle Data: MD5
 	private void setMD5(File fileDir) throws NoSuchAlgorithmException, IOException {
 		MessageDigest md = MessageDigest.getInstance("MD5");
 		FileInputStream stream = new FileInputStream(fileDir);
@@ -92,7 +84,6 @@ public class ImageInfo implements Serializable {
 		this.md5 = buf.toString();
 	}
 
-//Check whether given file is the same file with the object
 	public boolean isSameFile(File fileDir) {
 		try {
 			return checkMD5(fileDir);
