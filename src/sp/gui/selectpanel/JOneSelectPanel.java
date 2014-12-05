@@ -14,7 +14,6 @@ import sp.imageinfo.ImageInfo;
 
 public class JOneSelectPanel extends JPanel {
 	private JLabel label;
-	private JLabel hintLabel;
 	public static final int THUMB_SIZE = 300;
 	
 	public JOneSelectPanel() {
@@ -25,10 +24,7 @@ public class JOneSelectPanel extends JPanel {
 		label.setHorizontalTextPosition(JLabel.CENTER);
 		label.setVerticalTextPosition(JLabel.BOTTOM);
 
-		hintLabel = new JLabel("double click and check the console");
-		
 		add(label, BorderLayout.CENTER);
-		add(hintLabel, BorderLayout.SOUTH);
 	}
 	
 	public void update(List<ImageInfo> list) {

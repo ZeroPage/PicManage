@@ -5,14 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.drew.imaging.jpeg.JpegProcessingException;
-import com.drew.metadata.Tag;
 import sp.gui.gridlist.ImageInfoListener;
 import sp.gui.gridlist.JGridList;
 import sp.gui.gridlist.ImageInfoListListener;
@@ -186,16 +184,8 @@ public class PicManageGUI extends JFrame {
 			@Override
 			public void action(ImageInfo info) {
 				System.out.println(info);
-				Collection<Tag> meta = info.getMeta();
-
-				if (meta != null) {
-					for (Tag t : meta) {
-						System.out.println(t.getTagName() + ": " + t.getDescription());
-					}
-				}
 
 				new DetailViewGUI(PicManageGUI.this, infoList, infoList.indexOf(info)).setVisible(true);
-
 			}
 		});
 

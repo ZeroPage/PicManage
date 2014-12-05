@@ -93,12 +93,12 @@ public class JGridList extends JScrollPane {
 
 			Icon icon = thumbnails.getOrDefault(value, new ImageIcon());
 
-			label.setBorder(BorderFactory.createEmptyBorder(0, paddingSize, 0, paddingSize));
+			label.setBorder(BorderFactory.createEmptyBorder(paddingSize, paddingSize, paddingSize, paddingSize));
 			label.setIcon(icon);
 
 			label.setHorizontalTextPosition(JLabel.CENTER);
 			label.setVerticalTextPosition(JLabel.BOTTOM);
-			label.setPreferredSize(new Dimension(thumbSize + paddingSize * 2, thumbSize));
+			label.setPreferredSize(new Dimension(thumbSize + paddingSize * 2, thumbSize + paddingSize));
 			
 			return label;
 		}

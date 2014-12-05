@@ -1,13 +1,16 @@
 package sp.gui;
 
+import com.drew.metadata.Tag;
 import sp.imageinfo.ImageInfo;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 public class DetailViewGUI extends JDialog {
@@ -17,11 +20,14 @@ public class DetailViewGUI extends JDialog {
     private JButton leftButton;
     private JButton rightButton;
 
-    private JPanel detailPanel;
+    private JPanel infoPanel;
+    private JTable infoTable;
+    private DefaultTableModel tableModel;
 
     private List<ImageInfo> infoList;
     private int currentIndex;
-    private BufferedImage image;
+    private BufferedImage currentImage;
+    private ImageInfo currentInfo;
     private boolean resized;
 
     public DetailViewGUI(JFrame parent, List<ImageInfo> list, int index) {
@@ -65,9 +71,21 @@ public class DetailViewGUI extends JDialog {
         buttonsPanel.add(rightButton);
         add(buttonsPanel, BorderLayout.SOUTH);
 
-        detailPanel = new JPanel();
-        detailPanel.setPreferredSize(new Dimension(300, 300));
-        add(detailPanel, BorderLayout.EAST);
+        infoPanel = new JPanel();
+        infoPanel.setPreferredSize(new Dimension(300, 300));
+        infoPanel.setLayout(new BorderLayout());
+        tableModel = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tableModel.addColumn("Key");
+        tableModel.addColumn("Value");
+        infoTable = new JTable(tableModel);
+        infoTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        infoPanel.add(new JScrollPane(infoTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.SOUTH);
+        add(infoPanel, BorderLayout.EAST);
 
         addComponentListener(new ComponentAdapter() {
             @Override
@@ -95,22 +113,26 @@ public class DetailViewGUI extends JDialog {
     }
 
     private void selectImage(int selectIndex) {
-        selectIndex = selectIndex % infoList.size();
+        currentIndex = selectIndex % infoList.size();
+        if (currentIndex < 0) {
+            currentIndex += infoList.size();
+        }
+        currentInfo = infoList.get(currentIndex);
 
         try {
-            image = ImageIO.read(infoList.get(selectIndex).getFile());
+            currentImage = ImageIO.read(currentInfo.getFile());
         } catch (IOException e) {
             return;
         }
 
-        updateImage();
 
-        currentIndex = selectIndex;
+        updateImage();
+        updateInfo();
     }
 
     private void updateImage() {
-        int imageWidth = image.getWidth();
-        int imageHeight = image.getHeight();
+        int imageWidth = currentImage.getWidth();
+        int imageHeight = currentImage.getHeight();
 
         int labelWidth = imageLabel.getWidth();
         int labelHeight = imageLabel.getHeight();
@@ -133,7 +155,20 @@ public class DetailViewGUI extends JDialog {
         int finalWidth = (int) (imageWidth * finalRatio);
         int finalHeight = (int) (imageHeight * finalRatio);
 
-        Image newImage = image.getScaledInstance(finalWidth, finalHeight, Image.SCALE_SMOOTH);
+        Image newImage = currentImage.getScaledInstance(finalWidth, finalHeight, Image.SCALE_SMOOTH);
         imageLabel.setIcon(new ImageIcon(newImage));
+    }
+
+    private void updateInfo() {
+        int count;
+        while ((count = tableModel.getRowCount()) != 0) {
+            tableModel.removeRow(count - 1);
+        }
+
+        Collection<Tag> tags = currentInfo.getMeta();
+
+        for (Tag tag : tags) {
+            tableModel.addRow(new String[] {tag.getTagName(), tag.getDescription()});
+        }
     }
 }
