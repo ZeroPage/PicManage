@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import sp.imageinfo.ImageInfo;
 
 public class ImageManager implements Serializable {
-	private static final long serialVersionUID = -466251720671992919L;
+	private static final long serialVersionUID = -466251720671992920L;
 	private ArrayList<ImageInfo> imageList;
 	
 	public ImageManager() {
@@ -54,7 +54,6 @@ public class ImageManager implements Serializable {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
 	}
 	public void addImage(File file) {
 		ImageInfo imageInfo = new ImageInfo(file);
@@ -65,4 +64,5 @@ public class ImageManager implements Serializable {
 	}
 	public void sortImageList() {
 	}
+
 }

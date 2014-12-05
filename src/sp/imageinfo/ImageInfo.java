@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.security.MessageDigest;
@@ -16,7 +15,7 @@ public class ImageInfo implements Serializable {
 	private String md5;
 	private String memo;
 	private ImageFile fileInfo;
-	private ImageMeta metaInfo;
+	private transient ImageMeta metaInfo;
 	private HashSet<String> tagInfo;
 	
 	public ImageInfo(File imageFile) {
