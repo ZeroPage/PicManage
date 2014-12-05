@@ -34,6 +34,10 @@ public class ImageInfo implements Serializable {
 		
 	}
 	
+	public void initMeta() {
+		metaInfo = new ImageMeta(fileInfo.getFile());
+	}
+	
 	public String getMemo() {
 		return memo;
 	}
