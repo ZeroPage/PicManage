@@ -81,7 +81,7 @@ public class ImageManager implements Serializable {
 			@Override
 			public int compare(ImageInfo imageInfo1, ImageInfo imageInfo2) {
 
-				return imageInfo1.getFileName().compareTo(imageInfo2.getFileName());
+				return imageInfo1.getFileName().toLowerCase().compareTo(imageInfo2.getFileName().toLowerCase());
 			}
 		});
 		return clone;
