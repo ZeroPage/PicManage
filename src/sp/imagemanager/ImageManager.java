@@ -21,8 +21,27 @@ public class ImageManager implements Serializable {
 	public ImageManager() {
 		imageList = new ArrayList<ImageInfo>();
 	}
-	public ArrayList<ImageInfo> getImageList() {
-		return this.imageList;
+	public ArrayList<ImageInfo> getImageList(int method) {
+		ArrayList<ImageInfo> clone;
+		switch(method) {
+			case SORT_BY_NAME:
+				clone = sortImageListByName();
+				break;
+			case SORT_BY_TIME:
+				clone = sortImageListByTime();
+				break;
+			default:
+				clone = sortImageListByName(); //test
+		}
+		return clone;
+	}
+	private ArrayList<ImageInfo> cloneList() {
+		ArrayList<ImageInfo> clone = new ArrayList<ImageInfo>(imageList.size());
+		ListIterator<ImageInfo> it = imageList.listIterator();
+		while(it.hasNext()) {
+			clone.add(it.next());
+		}
+		return clone;
 	}
 	public void saveImageList(File file) throws IOException {
 
@@ -56,33 +75,27 @@ public class ImageManager implements Serializable {
 		imageList.remove(imageInfo);
 	}
 
-	public void sortImageList(int method) {
-		switch(method) {
-			case SORT_BY_NAME:
-				sortImageListByName();
-				break;
-			case SORT_BY_TIME:
-				sortImageListByTime();
-				break;
-			default:
-			 	break; //test
-		}
-	}
-	private void sortImageListByName() {
-		Collections.sort(imageList, new Comparator<ImageInfo>() {
+	private ArrayList<ImageInfo> sortImageListByName() {
+		ArrayList<ImageInfo> clone = cloneList();
+		Collections.sort(clone, new Comparator<ImageInfo>() {
 			@Override
 			public int compare(ImageInfo imageInfo1, ImageInfo imageInfo2) {
+
 				return imageInfo1.getFileName().compareTo(imageInfo2.getFileName());
 			}
 		});
+		return clone;
 	}
-	private void sortImageListByTime() {
-		Collections.sort(imageList, new Comparator<ImageInfo>() {
+	private ArrayList<ImageInfo> sortImageListByTime() {
+		ArrayList<ImageInfo> clone = cloneList();
+		Collections.sort(clone, new Comparator<ImageInfo>() {
 			@Override
 			public int compare(ImageInfo imageInfo1, ImageInfo imageInfo2) {
+
 				return imageInfo1.getFileTime().compareTo(imageInfo2.getFileTime());
 			}
 		});
+		return clone;
 	}
 
 	//public ArrayList<ImageInfo> filterImageListByTag() {}
