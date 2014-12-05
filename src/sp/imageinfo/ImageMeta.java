@@ -18,18 +18,13 @@ public class ImageMeta implements Serializable {
 	public ImageMeta() {
 	}
 	
-	public ImageMeta(File file) {
+	public ImageMeta(File file) throws JpegProcessingException, IOException {
 		imageFile = file;
 		metaTag = new ArrayList<>();
-		try {
-			initMetadata();
-		} catch (Exception e) {
-			// TODO
-			e.printStackTrace();
-		}
+		initMetadata();
 	}
 	
-	private void initMetadata() throws JpegProcessingException, IOException {
+	private void initMetadata() throws  IOException, JpegProcessingException {
 		metaInfo = JpegMetadataReader.readMetadata(imageFile);
 		Iterator dir = metaInfo.getDirectories().iterator();
 		while(dir.hasNext()) {

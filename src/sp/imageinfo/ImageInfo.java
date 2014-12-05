@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import com.drew.imaging.jpeg.JpegProcessingException;
 import com.drew.metadata.Tag;
 
 public class ImageInfo implements Serializable {
@@ -18,23 +19,19 @@ public class ImageInfo implements Serializable {
 	private transient ImageMeta metaInfo;
 	private HashSet<String> tagInfo;
 	
-	public ImageInfo(File imageFile) {
-		try {
-			fileInfo = new ImageFile(imageFile);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public ImageInfo(File imageFile) throws JpegProcessingException, IOException {
+		fileInfo = new ImageFile(imageFile);
 		metaInfo = new ImageMeta(imageFile);
 		try {
 			setMD5(imageFile);
 		} catch (NoSuchAlgorithmException | IOException e) {
-			e.printStackTrace();
+			System.out.println("There's something wrong with the file " + imageFile.getName() + "\'s data!");
 		}
 		tagInfo = new HashSet<String>();
 		
 	}
 	
-	public void initMeta() {
+	public void initMeta() throws JpegProcessingException, IOException {
 		metaInfo = new ImageMeta(fileInfo.getFile());
 	}
 	

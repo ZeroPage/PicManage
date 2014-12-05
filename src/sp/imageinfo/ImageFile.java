@@ -13,20 +13,16 @@ public class ImageFile implements Serializable {
 	private String recentUpdate;
 	private File file;
 
-	public ImageFile(File file) throws Exception {
+	public ImageFile(File file) throws IOException {
 		this.file = file;
 		this.fileDir = file.getPath();
 		this.initData();
 	}
 
-	private void initData() {
+	private void initData() throws IOException {
 		this.file = new File(this.fileDir);
 		FileTime recentTime=FileTime.fromMillis(0);
-		try {
-			recentTime = Files.getLastModifiedTime(Paths.get(fileDir));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		recentTime = Files.getLastModifiedTime(Paths.get(fileDir));
 		recentUpdate = recentTime.toString();
 		this.fileName = file.getName();
 	}
