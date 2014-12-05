@@ -51,11 +51,15 @@ public class ImageInfo implements Serializable {
 		return date;
 	}
 	
+	public void setTag(HashSet<String> tags) {
+		tagInfo = tags;
+	}
+	
 	public String getMemo() {
 		return memo;
 	}
 
-	public void updateMemo(String newMemo) {
+	public void setMemo(String newMemo) {
 		memo = newMemo;
 	}
 	
