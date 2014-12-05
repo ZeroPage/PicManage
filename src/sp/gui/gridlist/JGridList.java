@@ -19,6 +19,8 @@ import sp.imageinfo.ImageInfo;
  * http://stackoverflow.com/questions/4176343
  */
 public class JGridList extends JScrollPane {
+	private JFrame parent;
+
 	// private final static int ITEM_NUMBER = 25;
 	private int thumbSize = 200;
 	private int paddingSize = 20;
@@ -30,7 +32,8 @@ public class JGridList extends JScrollPane {
 
 	private Map<ImageInfo, Icon> thumbnails;
 
-	public JGridList() {
+	public JGridList(JFrame parent) {
+		this.parent = parent;
 		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		
@@ -60,7 +63,15 @@ public class JGridList extends JScrollPane {
 		dlm.clear();
 		thumbnails.clear();
 
+		int total = infoList.size();
+		int count = 0;
+
 		for (ImageInfo info : infoList) {
+			count++;
+			JDialog dialog = new JDialog(parent, "Loading... (" + count + " / " + total + ")", false);
+			dialog.setSize(new Dimension(300, 0));
+			dialog.setVisible(true);
+
 			dlm.addElement(info);
 
 			BufferedImage image;
@@ -76,6 +87,7 @@ public class JGridList extends JScrollPane {
 
 			ImageIcon resizeImage = new ImageIcon(image.getScaledInstance(newWidth, newHeight, Image.SCALE_FAST));
 			thumbnails.put(info, resizeImage);
+			dialog.setVisible(false);
 		}
 
 

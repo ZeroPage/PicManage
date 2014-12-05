@@ -22,7 +22,9 @@ public class PicManageGUI extends JFrame {
 	public static final String FILE_SUFFIX = "pm";
 
 	private JPanel leftPanel;
-	private JComboBox<String> comboBox;
+	private JPanel optionPanel;
+	private JComboBox<String> sortComboBox;
+	private JButton filterButton;
 	private JGridList list;
 
 	private JSelectPanel rightPanel;
@@ -39,6 +41,8 @@ public class PicManageGUI extends JFrame {
 
 	private ImageManager manager;
 	private List<ImageInfo> infoList;
+
+	private int sortType;
 	public PicManageGUI(ImageManager manager) {
 		this.manager = manager;
 
@@ -48,6 +52,7 @@ public class PicManageGUI extends JFrame {
 		setMinimumSize(new Dimension(600, 300));
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+		initOption();
 		initChooser();
 		initMenu();
 		initRight();
@@ -169,10 +174,9 @@ public class PicManageGUI extends JFrame {
 		leftPanel.setLayout(new BorderLayout());
 		add(leftPanel, BorderLayout.CENTER);
 
-		comboBox = new JComboBox<>(new String[] {"sort(not implemented)", "ssoorrtt"});
-		leftPanel.add(comboBox, BorderLayout.NORTH);
+		leftPanel.add(optionPanel, BorderLayout.NORTH);
 
-		list = new JGridList();
+		list = new JGridList(this);
 		list.addSelectListener(new ImageInfoListListener() {
 			@Override
 			public void action(List<ImageInfo> list) {
@@ -183,8 +187,6 @@ public class PicManageGUI extends JFrame {
 		list.addClickListener(new ImageInfoListener() {
 			@Override
 			public void action(ImageInfo info) {
-				System.out.println(info);
-
 				new DetailViewGUI(PicManageGUI.this, infoList, infoList.indexOf(info)).setVisible(true);
 			}
 		});
@@ -193,8 +195,36 @@ public class PicManageGUI extends JFrame {
 		leftPanel.add(list, BorderLayout.CENTER);
 	}
 
+	private void initOption() {
+		sortType = ImageManager.SORT_BY_NAME;
+
+		optionPanel = new JPanel();
+		optionPanel.setLayout(new BorderLayout());
+
+		sortComboBox = new JComboBox<>(new String[] {"Name", "Date"});
+		sortComboBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int selected = sortComboBox.getSelectedIndex();
+
+				if (selected == 0) {
+					sortType = ImageManager.SORT_BY_NAME;
+				} else if (selected == 1) {
+					sortType = ImageManager.SORT_BY_TIME;
+				}
+
+				updateLeft();
+			}
+		});
+		optionPanel.add(sortComboBox, BorderLayout.EAST);
+
+		filterButton = new JButton("Filter (not yet)");
+		optionPanel.add(filterButton, BorderLayout.CENTER);
+
+	}
+
 	private void updateLeft() {
-		infoList = manager.getImageList();
+		infoList = manager.getImageList(sortType);
 		list.setItems(infoList);
 	}
 
