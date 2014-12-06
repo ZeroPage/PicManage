@@ -35,7 +35,7 @@ public class ImageManager implements Serializable {
 		}
 		return clone;
 	}
-	public ArrayList<ImageInfo> getImageList(int method, ArrayList<String> strings) {
+	public ArrayList<ImageInfo> getImageList(int method, List<String> strings) {
 		ArrayList<ImageInfo> clone = getImageList(method);
 		clone = filterImageListByTag(clone, strings);
 		return clone;
@@ -101,7 +101,7 @@ public class ImageManager implements Serializable {
 		return clone;
 	}
 
-	public ArrayList<ImageInfo> filterImageListByTag(ArrayList<ImageInfo> clone, List<String> strings) {
+	private ArrayList<ImageInfo> filterImageListByTag(ArrayList<ImageInfo> clone, List<String> strings) {
 		ListIterator<ImageInfo> it = imageList.listIterator();
 		boolean flag = true;
 		while(it.hasNext()) {
