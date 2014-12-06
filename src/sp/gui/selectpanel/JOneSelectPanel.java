@@ -1,26 +1,39 @@
 package sp.gui.selectpanel;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import sp.gui.gridlist.ImageInfoListListener;
 import sp.imageinfo.ImageInfo;
 
 public class JOneSelectPanel extends JPanel {
 	private JLabel previewLabel;
+	private JPanel controlPanel;
+	private JButton deleteButton;
 	private JPanel infoPanel;
 	private JPanel memoPanel;
 	private JTextArea memoText;
 	private JPanel tagPanel;
 	private JTextArea tagText;
+
+	private List<ImageInfoListListener> deleteListeners;
+	private ImageInfo currentInfo;
+
 	public static final int THUMB_SIZE = 300;
 	
 	public JOneSelectPanel() {
 		super();
+
+		deleteListeners = new ArrayList<>();
+
 		setLayout(new BorderLayout());
 
 		previewLabel = new JLabel();
@@ -30,8 +43,24 @@ public class JOneSelectPanel extends JPanel {
 		previewLabel.setVerticalTextPosition(JLabel.BOTTOM);
 		add(previewLabel, BorderLayout.NORTH);
 
+		controlPanel = new JPanel(new BorderLayout());
+		add(controlPanel, BorderLayout.SOUTH);
+
+		deleteButton = new JButton("delete");
+		deleteButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (ImageInfoListListener listener : deleteListeners) {
+					List<ImageInfo> tempList = new ArrayList<>();
+					tempList.add(currentInfo);
+					listener.action(tempList);
+				}
+			}
+		});
+		controlPanel.add(deleteButton, BorderLayout.SOUTH);
+
 		infoPanel = new JPanel(new BorderLayout());
-		add(infoPanel, BorderLayout.SOUTH);
+		controlPanel.add(infoPanel, BorderLayout.NORTH);
 
 		memoPanel = new JPanel(new BorderLayout());
 		memoPanel.add(new JLabel("Memo"), BorderLayout.NORTH);
@@ -49,13 +78,13 @@ public class JOneSelectPanel extends JPanel {
 	}
 	
 	public void update(List<ImageInfo> list) {
-		ImageInfo item = list.get(0);
+		currentInfo = list.get(0);
 		
-		previewLabel.setText(item.toString());
+		previewLabel.setText(currentInfo.toString());
 
 		BufferedImage image;
 		try {
-			image = ImageIO.read(item.getFile());
+			image = ImageIO.read(currentInfo.getFile());
 		} catch (IOException e) {
 			return;
 		}
@@ -68,7 +97,11 @@ public class JOneSelectPanel extends JPanel {
 
 		previewLabel.setIcon(resizeImage);
 
-		memoText.setText(item.getMemo());
-		tagText.setText(item.getTag().toString());
+		memoText.setText(currentInfo.getMemo());
+		tagText.setText(currentInfo.getTag().toString());
+	}
+
+	public void addRemoveListener(ImageInfoListListener listener) {
+		deleteListeners.add(listener);
 	}
 }

@@ -46,7 +46,6 @@ public class JTagEditDialog extends JDialog{
                 String input = JOptionPane.showInputDialog("Input new tag");
 
                 if (input != null && !allTags.contains(input)) {
-                    System.out.println(input);
                     allTags.add(input);
 
                     JCheckBox checkBox = new JCheckBox(input);

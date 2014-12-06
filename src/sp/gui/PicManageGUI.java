@@ -46,7 +46,7 @@ public class PicManageGUI extends JFrame {
 
 	private ImageManager manager;
 	private List<ImageInfo> infoList;
-	private List<String> filterList;
+	private ArrayList<String> filterList;
 
 	private int sortType;
 	public PicManageGUI(ImageManager manager) {
@@ -124,7 +124,8 @@ public class PicManageGUI extends JFrame {
 						JOptionPane.showMessageDialog(PicManageGUI.this, "Failed to load.", "ERROR", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					updateLeft();
+
+					setFilter(new ArrayList<String>());
 				}
 			}
 		});
@@ -233,17 +234,8 @@ public class PicManageGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				selectDialog.init();
-				filterList = selectDialog.getResult();
+				setFilter(selectDialog.getResult());
 
-				String tagString;
-
-				if (filterList.size() == 0) {
-					tagString = "none";
-				} else {
-					tagString = filterList.toString();
-				}
-
-				filterButton.setText("filter: " + tagString);
 			}
 		});
 		optionPanel.add(filterButton, BorderLayout.CENTER);
@@ -251,11 +243,27 @@ public class PicManageGUI extends JFrame {
 	}
 
 	private void updateLeft() {
-		infoList = manager.getImageList(sortType);
+		infoList = manager.getImageList(sortType, filterList);
 		list.setItems(infoList);
 	}
 
 	private void updateRight(List<ImageInfo> list) {
 		rightPanel.update(list);
+	}
+
+	private void setFilter(ArrayList<String> newFilter) {
+		filterList = newFilter;
+
+		String tagString;
+
+		if (filterList.size() == 0) {
+			tagString = "none";
+		} else {
+			tagString = filterList.toString();
+		}
+
+		filterButton.setText("filter: " + tagString);
+
+		updateLeft();
 	}
 }

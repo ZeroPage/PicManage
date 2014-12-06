@@ -9,23 +9,24 @@ import java.util.List;
 
 public class JSelectPanel extends JPanel {
 
-    private JNoSelectPanel JNoSelectPanel;
-    private JOneSelectPanel JOneSelectPanel;
-    private JMultiSelectPanel JMultiSelectPanel;
+    private JNoSelectPanel noSelectPanel;
+    private JOneSelectPanel oneSelectPanel;
+    private JMultiSelectPanel multiSelectPanel;
 
     public JSelectPanel() {
         setPreferredSize(new Dimension(300, 300));
         setLayout(new BorderLayout());
 
-        JNoSelectPanel = new JNoSelectPanel();
-        JOneSelectPanel = new JOneSelectPanel();
-        JMultiSelectPanel = new JMultiSelectPanel();
+        noSelectPanel = new JNoSelectPanel();
+        oneSelectPanel = new JOneSelectPanel();
+        multiSelectPanel = new JMultiSelectPanel();
 
-        add(JNoSelectPanel, BorderLayout.CENTER);
+        add(noSelectPanel, BorderLayout.CENTER);
     }
 
     public void addRemoveButtonListener(ImageInfoListListener listener) {
-        JMultiSelectPanel.addRemoveListener(listener);
+        multiSelectPanel.addRemoveListener(listener);
+        oneSelectPanel.addRemoveListener(listener);
     }
 
     public void update(List<ImageInfo> list) {
@@ -34,13 +35,13 @@ public class JSelectPanel extends JPanel {
         removeAll();
 
         if (size == 0) {
-            add(JNoSelectPanel, BorderLayout.CENTER);
+            add(noSelectPanel, BorderLayout.CENTER);
         } else if (size == 1) {
-            add(JOneSelectPanel, BorderLayout.CENTER);
-            JOneSelectPanel.update(list);
+            add(oneSelectPanel, BorderLayout.CENTER);
+            oneSelectPanel.update(list);
         } else {
-            add(JMultiSelectPanel, BorderLayout.CENTER);
-            JMultiSelectPanel.update(list);
+            add(multiSelectPanel, BorderLayout.CENTER);
+            multiSelectPanel.update(list);
         }
 
         updateUI();

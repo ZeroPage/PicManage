@@ -24,6 +24,8 @@ public class JMultiSelectPanel extends JPanel {
 		setLayout(new BorderLayout());
 		
 		label = new JLabel();
+		label.setHorizontalAlignment(JLabel.CENTER);
+		label.setVerticalAlignment(JLabel.CENTER);
 		removeButton = new JButton("Remove");
 
 		removeListener = new MultiSelectPanelRemoveListener();
