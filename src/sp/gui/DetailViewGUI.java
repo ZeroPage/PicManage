@@ -10,9 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DetailViewGUI extends JDialog {
     private JLabel imageLabel;
@@ -28,12 +26,9 @@ public class DetailViewGUI extends JDialog {
     private BufferedImage currentImage;
     private ImageInfo currentInfo;
     private boolean resized;
-    private Map<Integer, BufferedImage> imageCache;
 
     public DetailViewGUI(ImageManager manager) {
         super();
-
-        imageCache = new HashMap<>();
 
         setTitle("Details");
         setSize(800, 600);
@@ -113,16 +108,11 @@ public class DetailViewGUI extends JDialog {
         }
         currentInfo = infoList.get(currentIndex);
 
-        if (!imageCache.containsKey(currentIndex)) {
-            try {
-                imageCache.put(currentIndex, ImageIO.read(currentInfo.getFile()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            currentImage = ImageIO.read(currentInfo.getFile());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        currentImage = imageCache.get(currentIndex);
-
 
         updateImage();
         updateInfo();

@@ -46,7 +46,7 @@ public class JOneSelectPanel extends JPanel {
 		controlPanel = new JPanel(new BorderLayout());
 		add(controlPanel, BorderLayout.SOUTH);
 
-		deleteButton = new JButton("delete");
+		deleteButton = new JButton("Remove");
 		deleteButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
