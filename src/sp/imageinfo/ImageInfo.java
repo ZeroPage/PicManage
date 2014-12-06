@@ -43,11 +43,7 @@ public class ImageInfo implements Serializable {
 	public Date getFileTime() {
 		@SuppressWarnings("deprecation")
 		Date date;
-		if(metaInfo.getDate()!=null) {
-			date = metaInfo.getDate();
-		} else {
 			date = fileInfo.getFileDate();
-		}
 		return date;
 	}
 	
