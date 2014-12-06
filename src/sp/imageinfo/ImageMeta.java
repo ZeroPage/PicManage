@@ -56,8 +56,10 @@ public class ImageMeta implements Serializable {
 			return null;
 		} else {
 			for(String str : timeData) {
-				if(date.after(new Date(str))) {
-					date = new Date(str);
+				String[] split;
+				split = str.split(":| ");
+				if(date.after(new Date(Integer.parseInt(split[0]),Integer.parseInt(split[1]),Integer.parseInt(split[2]),Integer.parseInt(split[3]),Integer.parseInt(split[4]),Integer.parseInt(split[5])))) {
+					date = new Date(Integer.parseInt(split[0]),Integer.parseInt(split[1]),Integer.parseInt(split[2]),Integer.parseInt(split[3]),Integer.parseInt(split[4]),Integer.parseInt(split[5]));
 				}
 			}
 		}

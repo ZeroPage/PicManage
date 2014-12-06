@@ -12,6 +12,7 @@ public class ImageFile implements Serializable {
 	private String fileDir;
 	private String fileName;
 	private String recentUpdate;
+	private long recentUpdateMil;
 	private File file;
 
 	public ImageFile(File file) throws IOException {
@@ -24,6 +25,7 @@ public class ImageFile implements Serializable {
 		this.file = new File(this.fileDir);
 		FileTime recentTime=FileTime.fromMillis(0);
 		recentTime = Files.getLastModifiedTime(Paths.get(fileDir));
+		recentUpdateMil = recentTime.toMillis();
 		recentUpdate = recentTime.toString();
 		this.fileName = file.getName();
 	}
@@ -44,7 +46,7 @@ public class ImageFile implements Serializable {
 	
 	public Date getFileDate() {
 		@SuppressWarnings("deprecation")
-		Date date = new Date(this.recentUpdate);
+		Date date = new Date(recentUpdateMil);
 		return date;
 	}
 }
