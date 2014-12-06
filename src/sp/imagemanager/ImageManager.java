@@ -21,6 +21,7 @@ public class ImageManager implements Serializable {
 	public ImageManager() {
 		imageList = new ArrayList<ImageInfo>();
 	}
+
 	public ArrayList<ImageInfo> getImageList(int method) {
 		ArrayList<ImageInfo> clone;
 		switch(method) {
@@ -40,7 +41,8 @@ public class ImageManager implements Serializable {
 		clone = filterImageListByTag(clone, strings);
 		return clone;
 	}
-	private ArrayList<ImageInfo> cloneList() {
+
+	private ArrayList<ImageInfo> cloneImageList() {
 		ArrayList<ImageInfo> clone = new ArrayList<ImageInfo>(imageList.size());
 		ListIterator<ImageInfo> it = imageList.listIterator();
 		while(it.hasNext()) {
@@ -48,6 +50,10 @@ public class ImageManager implements Serializable {
 		}
 		return clone;
 	}
+	public void clearImageList() {
+		imageList.clear();
+	}
+
 	public void saveImageList(File file) throws IOException {
 
 		FileOutputStream fileOut = new FileOutputStream(file);
@@ -87,7 +93,7 @@ public class ImageManager implements Serializable {
 	}
 
 	private ArrayList<ImageInfo> sortImageListByName() {
-		ArrayList<ImageInfo> clone = cloneList();
+		ArrayList<ImageInfo> clone = cloneImageList();
 		Collections.sort(clone, new Comparator<ImageInfo>() {
 			@Override
 			public int compare(ImageInfo imageInfo1, ImageInfo imageInfo2) {
@@ -97,7 +103,7 @@ public class ImageManager implements Serializable {
 		return clone;
 	}
 	private ArrayList<ImageInfo> sortImageListByTime() {
-		ArrayList<ImageInfo> clone = cloneList();
+		ArrayList<ImageInfo> clone = cloneImageList();
 		Collections.sort(clone, new Comparator<ImageInfo>() {
 			@Override
 			public int compare(ImageInfo imageInfo1, ImageInfo imageInfo2) {
