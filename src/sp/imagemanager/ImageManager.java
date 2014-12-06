@@ -35,6 +35,11 @@ public class ImageManager implements Serializable {
 		}
 		return clone;
 	}
+	public ArrayList<ImageInfo> getImageList(int method, ArrayList<String> strings) {
+		ArrayList<ImageInfo> clone = getImageList(method);
+		clone = filterImageListByTag(clone, strings);
+		return clone;
+	}
 	private ArrayList<ImageInfo> cloneList() {
 		ArrayList<ImageInfo> clone = new ArrayList<ImageInfo>(imageList.size());
 		ListIterator<ImageInfo> it = imageList.listIterator();
@@ -80,7 +85,6 @@ public class ImageManager implements Serializable {
 		Collections.sort(clone, new Comparator<ImageInfo>() {
 			@Override
 			public int compare(ImageInfo imageInfo1, ImageInfo imageInfo2) {
-
 				return imageInfo1.getFileName().toLowerCase().compareTo(imageInfo2.getFileName().toLowerCase());
 			}
 		});
@@ -91,14 +95,28 @@ public class ImageManager implements Serializable {
 		Collections.sort(clone, new Comparator<ImageInfo>() {
 			@Override
 			public int compare(ImageInfo imageInfo1, ImageInfo imageInfo2) {
-
 				return imageInfo1.getFileTime().compareTo(imageInfo2.getFileTime());
 			}
 		});
 		return clone;
 	}
 
-	//public ArrayList<ImageInfo> filterImageListByTag() {}
+	public ArrayList<ImageInfo> filterImageListByTag(ArrayList<ImageInfo> clone, List<String> strings) {
+		ListIterator<ImageInfo> it = imageList.listIterator();
+		boolean flag = true;
+		while(it.hasNext()) {
+			HashSet<String> tagSet = it.next().getTag();
+			for(int i = 0; i < strings.size(); i++) {
+				if(!tagSet.contains(strings.get(i))) {
+					flag = false;
+				}
+			}
+			if(!flag) {
+				clone.remove(it.next());
+			}
+		}
+		return clone;
+	}
 
 	public HashSet<String> getTagSet() {
 		ListIterator<ImageInfo> it = imageList.listIterator();
