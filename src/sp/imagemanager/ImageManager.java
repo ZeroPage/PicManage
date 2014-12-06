@@ -103,19 +103,15 @@ public class ImageManager implements Serializable {
 
 	private ArrayList<ImageInfo> filterImageListByTag(ArrayList<ImageInfo> clone, List<String> strings) {
 		ListIterator<ImageInfo> it = imageList.listIterator();
-		boolean flag = true;
 		while(it.hasNext()) {
 			ImageInfo temp = it.next();
 			HashSet<String> tagSet = temp.getTag();
 			for(int i = 0; i < strings.size(); i++) {
 				if(!tagSet.contains(strings.get(i))) {
-					flag = false;
+					clone.remove(temp);
+					break;
 				}
 			}
-			if(!flag) {
-				clone.remove(temp);
-			}
-			flag = true;
 		}
 		return clone;
 	}
