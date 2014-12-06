@@ -35,7 +35,7 @@ public class ImageManager implements Serializable {
 		}
 		return clone;
 	}
-	public ArrayList<ImageInfo> getImageList(int method, ArrayList<String> strings) {
+	public ArrayList<ImageInfo> getImageList(int method, List<String> strings) {
 		ArrayList<ImageInfo> clone = getImageList(method);
 		clone = filterImageListByTag(clone, strings);
 		return clone;
