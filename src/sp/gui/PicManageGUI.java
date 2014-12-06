@@ -119,9 +119,11 @@ public class PicManageGUI extends JFrame {
 						manager.loadImageList(selectedFile);
 					} catch (ClassNotFoundException e1) {
 						JOptionPane.showMessageDialog(PicManageGUI.this, "Deprecated *.pm file.", "ERROR", JOptionPane.ERROR_MESSAGE);
+						manager.clearImageList();
 						return;
 					} catch (IOException | JpegProcessingException e1) {
 						JOptionPane.showMessageDialog(PicManageGUI.this, "Failed to load.", "ERROR", JOptionPane.ERROR_MESSAGE);
+						manager.clearImageList();
 						return;
 					}
 
