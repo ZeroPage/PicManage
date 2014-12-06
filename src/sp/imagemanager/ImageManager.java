@@ -103,17 +103,17 @@ public class ImageManager implements Serializable {
 
 	private ArrayList<ImageInfo> filterImageListByTag(ArrayList<ImageInfo> clone, List<String> strings) {
 		ListIterator<ImageInfo> it = imageList.listIterator();
-		boolean flag = true; //flag를 참으로한다.
-		while(it.hasNext()) { //다음이 있으면
+		boolean flag = true;
+		while(it.hasNext()) {
 			ImageInfo temp = it.next();
-			HashSet<String> tagSet = temp.getTag(); //다음의 태그를 가져온다
-			for(int i = 0; i < strings.size(); i++) { //string전체를 긁기위해 반복문으로
-				if(!tagSet.contains(strings.get(i))) { //i번째 string이 TagSEt안에 없으면
-					flag = false; //flag를 거짓으로
+			HashSet<String> tagSet = temp.getTag();
+			for(int i = 0; i < strings.size(); i++) {
+				if(!tagSet.contains(strings.get(i))) {
+					flag = false;
 				}
 			}
-			if(!flag) { //플래그가 거짓이면
-				clone.remove(temp); // 삭제
+			if(!flag) {
+				clone.remove(temp);
 			}
 			flag = true;
 		}
