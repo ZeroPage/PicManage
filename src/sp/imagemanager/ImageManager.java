@@ -74,6 +74,12 @@ public class ImageManager implements Serializable {
 	}
 	public void addImage(File file) throws JpegProcessingException, IOException{
 		ImageInfo imageInfo = new ImageInfo(file);
+		ListIterator<ImageInfo> it = imageList.listIterator();
+		while(it.hasNext()) {
+			if(it.next().equals(imageInfo)) {
+				return;
+			}
+		}
 		imageList.add(imageInfo);
 	}
 	public void deleteImage(ImageInfo imageInfo) {
