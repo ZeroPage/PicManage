@@ -108,6 +108,8 @@ public class JGridList extends JScrollPane {
 			label.setBorder(BorderFactory.createEmptyBorder(paddingSize, paddingSize, paddingSize, paddingSize));
 			label.setIcon(icon);
 
+			label.setHorizontalAlignment(JLabel.CENTER);
+			label.setVerticalAlignment(JLabel.CENTER);
 			label.setHorizontalTextPosition(JLabel.CENTER);
 			label.setVerticalTextPosition(JLabel.BOTTOM);
 			label.setPreferredSize(new Dimension(thumbSize + paddingSize * 2, thumbSize + paddingSize));

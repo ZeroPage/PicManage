@@ -2,6 +2,7 @@ package sp.gui;
 
 import sp.gui.detail.JInfoPanel;
 import sp.imageinfo.ImageInfo;
+import sp.imagemanager.ImageManager;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -29,12 +30,9 @@ public class DetailViewGUI extends JDialog {
     private boolean resized;
     private Map<Integer, BufferedImage> imageCache;
 
-    public DetailViewGUI(JFrame parent, List<ImageInfo> list, int index) {
-        super(parent);
+    public DetailViewGUI(ImageManager manager) {
+        super();
 
-        infoList = list;
-        currentIndex = index;
-        resized = true;
         imageCache = new HashMap<>();
 
         setTitle("Details");
@@ -42,7 +40,7 @@ public class DetailViewGUI extends JDialog {
         setModal(true);
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(600, 300));
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
 
         imageLabel = new JLabel();
@@ -71,7 +69,7 @@ public class DetailViewGUI extends JDialog {
         buttonsPanel.add(rightButton);
         add(buttonsPanel, BorderLayout.SOUTH);
 
-        infoPanel = new JInfoPanel();
+        infoPanel = new JInfoPanel(manager);
         add(infoPanel, BorderLayout.EAST);
 
         addComponentListener(new ComponentAdapter() {
@@ -96,7 +94,16 @@ public class DetailViewGUI extends JDialog {
             }
         });
 
-        selectImage(index);
+    }
+
+    public void init(List<ImageInfo> list, int index) {
+        infoList = list;
+        currentIndex = index;
+        resized = true;
+
+        selectImage(currentIndex);
+
+        setVisible(true);
     }
 
     private void selectImage(int selectIndex) {

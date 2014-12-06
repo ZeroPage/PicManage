@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
@@ -14,6 +15,7 @@ import com.drew.imaging.jpeg.JpegProcessingException;
 import sp.gui.gridlist.ImageInfoListener;
 import sp.gui.gridlist.JGridList;
 import sp.gui.gridlist.ImageInfoListListener;
+import sp.gui.gridlist.JTagSelectDialog;
 import sp.gui.selectpanel.JSelectPanel;
 import sp.imageinfo.ImageInfo;
 import sp.imagemanager.ImageManager;
@@ -25,6 +27,7 @@ public class PicManageGUI extends JFrame {
 	private JPanel optionPanel;
 	private JComboBox<String> sortComboBox;
 	private JButton filterButton;
+	private JTagSelectDialog selectDialog;
 	private JGridList list;
 
 	private JSelectPanel rightPanel;
@@ -39,12 +42,16 @@ public class PicManageGUI extends JFrame {
 	private JFileChooser imageChooser;
 	private JFileChooser fileChooser;
 
+	private DetailViewGUI detailView;
+
 	private ImageManager manager;
 	private List<ImageInfo> infoList;
+	private List<String> filterList;
 
 	private int sortType;
 	public PicManageGUI(ImageManager manager) {
 		this.manager = manager;
+		detailView = new DetailViewGUI(manager);
 
 		setTitle("PicManager");
 		setSize(600, 600);
@@ -187,7 +194,7 @@ public class PicManageGUI extends JFrame {
 		list.addClickListener(new ImageInfoListener() {
 			@Override
 			public void action(ImageInfo info) {
-				new DetailViewGUI(PicManageGUI.this, infoList, infoList.indexOf(info)).setVisible(true);
+				detailView.init(infoList, infoList.indexOf(info));
 			}
 		});
 
@@ -197,6 +204,7 @@ public class PicManageGUI extends JFrame {
 
 	private void initOption() {
 		sortType = ImageManager.SORT_BY_NAME;
+		filterList = new ArrayList<>();
 
 		optionPanel = new JPanel();
 		optionPanel.setLayout(new BorderLayout());
@@ -218,7 +226,26 @@ public class PicManageGUI extends JFrame {
 		});
 		optionPanel.add(sortComboBox, BorderLayout.EAST);
 
-		filterButton = new JButton("Filter (not yet)");
+		selectDialog = new JTagSelectDialog(manager);
+
+		filterButton = new JButton("Filter (none)");
+		filterButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				selectDialog.init();
+				filterList = selectDialog.getResult();
+
+				String tagString;
+
+				if (filterList.size() == 0) {
+					tagString = "none";
+				} else {
+					tagString = filterList.toString();
+				}
+
+				filterButton.setText("filter: " + tagString);
+			}
+		});
 		optionPanel.add(filterButton, BorderLayout.CENTER);
 
 	}

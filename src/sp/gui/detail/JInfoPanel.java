@@ -2,6 +2,7 @@ package sp.gui.detail;
 
 import com.drew.metadata.Tag;
 import sp.imageinfo.ImageInfo;
+import sp.imagemanager.ImageManager;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -15,7 +16,6 @@ public class JInfoPanel extends JPanel {
     private JScrollPane infoPanel;
     private JTable infoTable;
     private DefaultTableModel tableModel;
-    private ImageInfo currentInfo;
 
     private JPanel memoPanel;
     private JLabel memoTitle;
@@ -27,7 +27,13 @@ public class JInfoPanel extends JPanel {
     private JTextArea tagContent;
     private JButton tagButton;
 
-    public JInfoPanel() {
+    private JTagEditDialog tagDialog;
+
+    private ImageInfo currentInfo;
+
+    public JInfoPanel(ImageManager manager) {
+        tagDialog = new JTagEditDialog(manager);
+
         setPreferredSize(new Dimension(300, 300));
         setLayout(new BorderLayout());
 
@@ -77,7 +83,7 @@ public class JInfoPanel extends JPanel {
         memoPanel = new JPanel();
         memoPanel.setLayout(new BorderLayout());
 
-        memoTitle = new JLabel("MEMO");
+        memoTitle = new JLabel("Memo");
         memoPanel.add(memoTitle, BorderLayout.NORTH);
 
         memoContent = new JTextArea();
@@ -91,7 +97,7 @@ public class JInfoPanel extends JPanel {
                 String input = JOptionPane.showInputDialog("Input Memo", currentInfo.getMemo());
 
                 if (input != null) {
-                    System.out.println(input);
+                    currentInfo.setMemo(input);
                 }
 
                 update(currentInfo);
@@ -116,11 +122,7 @@ public class JInfoPanel extends JPanel {
         tagButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String input = JOptionPane.showInputDialog("Input Memo", currentInfo.getMemo());
-
-                if (input != null) {
-                    System.out.println(input);
-                }
+                tagDialog.init(currentInfo);
 
                 update(currentInfo);
             }
