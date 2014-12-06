@@ -71,9 +71,16 @@ public class ImageManager implements Serializable {
 
 		imageList = (ArrayList<ImageInfo>) oIn.readObject();
 
-		ListIterator<ImageInfo> it = imageList.listIterator();
-		while(it.hasNext()) {
-			it.next().initMeta();
+		List<ImageInfo> list = imageList;
+		int i = 0;
+		while(i < list.size() - 1) {
+			ImageInfo imageInfo = list.get(i);
+			if(imageInfo.getFile().exists()) {
+				imageInfo.initMeta();
+				i++;
+			} else {
+				imageList.remove(imageInfo);
+			}
 		}
 		fileIn.close();
 		oIn.close();
