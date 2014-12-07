@@ -15,17 +15,17 @@ import javax.swing.event.*;
 import sp.imageinfo.ImageInfo;
 
 /**
+ * Reference:
  * http://stackoverflow.com/questions/7620579
  * http://stackoverflow.com/questions/4176343
  */
 public class JGridList extends JScrollPane {
 	private JFrame parent;
 
-	// private final static int ITEM_NUMBER = 25;
 	private int thumbSize = 200;
 	private int paddingSize = 20;
-	private DefaultListModel<ImageInfo> dlm = new DefaultListModel<>();
-	private JList<ImageInfo> list = new JList<>(dlm);
+	private DefaultListModel<ImageInfo> defaultListModel = new DefaultListModel<>();
+	private JList<ImageInfo> list = new JList<>(defaultListModel);
 
 	private JGridListClickListener clickListener;
 	private JGridListSelectionListener selectionListener;
@@ -60,7 +60,7 @@ public class JGridList extends JScrollPane {
 	}
 
 	public void setItems(List<ImageInfo> infoList) {
-		dlm.clear();
+		defaultListModel.clear();
 		thumbnails.clear();
 
 		int total = infoList.size();
@@ -72,7 +72,7 @@ public class JGridList extends JScrollPane {
 			dialog.setSize(new Dimension(300, 0));
 			dialog.setVisible(true);
 
-			dlm.addElement(info);
+			defaultListModel.addElement(info);
 
 			BufferedImage image;
 			try {

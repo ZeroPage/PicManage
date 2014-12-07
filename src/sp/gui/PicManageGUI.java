@@ -119,12 +119,10 @@ public class PicManageGUI extends JFrame {
 						manager.loadImageList(selectedFile);
 					} catch (ClassNotFoundException e1) {
 						JOptionPane.showMessageDialog(PicManageGUI.this, "Deprecated *.pm file.", "ERROR", JOptionPane.ERROR_MESSAGE);
-						//manager.clearImageList();
 						return;
 					} catch (IOException | JpegProcessingException e1) {
 						JOptionPane.showMessageDialog(PicManageGUI.this, "Failed to load.", "ERROR", JOptionPane.ERROR_MESSAGE);
 						e1.printStackTrace();
-						//manager.clearImageList();
 						return;
 					}
 
@@ -151,6 +149,13 @@ public class PicManageGUI extends JFrame {
 						JOptionPane.showMessageDialog(PicManageGUI.this, "Failed to save.", "ERROR", JOptionPane.ERROR_MESSAGE);
 					}
 				}
+			}
+		});
+
+		exitMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PicManageGUI.this.dispose();
 			}
 		});
 

@@ -125,10 +125,6 @@ public class DetailViewGUI extends JDialog {
         int labelWidth = imageLabel.getWidth();
         int labelHeight = imageLabel.getHeight();
 
-
-        //System.out.println(labelWidth);
-        //System.out.println(labelHeight);
-
         if (labelWidth == 0 || labelHeight == 0) {
             labelWidth = 100;
             labelHeight = 100;
