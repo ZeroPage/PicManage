@@ -15,9 +15,6 @@ public class ImageMeta implements Serializable {
 	private Metadata metaInfo;
 	private Collection<Tag> metaTag;
 	
-	public ImageMeta() {
-	}
-	
 	public ImageMeta(File file) throws JpegProcessingException, IOException {
 		imageFile = file;
 		metaTag = new ArrayList<>();

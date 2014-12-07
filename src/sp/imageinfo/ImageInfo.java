@@ -95,38 +95,6 @@ public class ImageInfo implements Serializable {
 		
 		this.md5 = buf.toString();
 	}
-
-	public boolean isSameFile(File fileDir) {
-		try {
-			return checkMD5(fileDir);
-		} catch (NoSuchAlgorithmException | IOException e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-	
-	private boolean checkMD5(File fileDir) throws NoSuchAlgorithmException, IOException {
-		MessageDigest md = MessageDigest.getInstance("MD5");
-		FileInputStream stream = new FileInputStream(fileDir);
-		byte[] data = new byte[1024];
-		int read = 0;
-		
-		while((read = stream.read(data))!=-1)
-			md.update(data, 0, read);
-		
-		stream.close();
-		
-		byte[] mdbyte = md.digest();
-		
-		StringBuffer buf = new StringBuffer();
-		
-		for(int i=0;i<mdbyte.length;i++)
-			buf.append(Integer.toString((mdbyte[i]&0xff)+0x100,16).substring(1));
-		
-		if(this.md5.equals(buf.toString()))
-			return true;
-		return false;
-	}
 	
 	public boolean equals(ImageInfo obj) {
 		if(this.md5.equals(obj.md5))
