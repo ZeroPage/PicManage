@@ -23,17 +23,11 @@ public class ImageFile implements Serializable {
 
 	private void initData() throws IOException {
 		this.file = new File(this.fileDir);
-		FileTime recentTime=FileTime.fromMillis(0);
+		FileTime recentTime = FileTime.fromMillis(0);
 		recentTime = Files.getLastModifiedTime(Paths.get(fileDir));
 		recentUpdateMil = recentTime.toMillis();
 		recentUpdate = recentTime.toString();
 		this.fileName = file.getName();
-	}
-
-//Return the name and the date(time) of the most recent update
-	public String[] getData() {
-		String[] fileData = {fileName,recentUpdate};
-		return fileData;
 	}
 	
 	public File getFile() {
