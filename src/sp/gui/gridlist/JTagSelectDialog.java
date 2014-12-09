@@ -29,6 +29,7 @@ public class JTagSelectDialog extends JDialog {
         setSize(new Dimension(300, 300));
         setResizable(false);
         setModal(true);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
         tagBox = Box.createVerticalBox();

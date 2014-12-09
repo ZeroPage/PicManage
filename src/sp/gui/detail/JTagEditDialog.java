@@ -29,6 +29,7 @@ public class JTagEditDialog extends JDialog{
 
         setLayout(new BorderLayout());
         setSize(new Dimension(300, 300));
+        setLocationRelativeTo(null);
         setResizable(false);
         setModal(true);
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);

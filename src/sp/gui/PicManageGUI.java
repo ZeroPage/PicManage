@@ -57,6 +57,7 @@ public class PicManageGUI extends JFrame {
 		setSize(600, 600);
 		setLayout(new BorderLayout());
 		setMinimumSize(new Dimension(600, 300));
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		initOption();

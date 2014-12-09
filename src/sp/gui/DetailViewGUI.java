@@ -35,6 +35,7 @@ public class DetailViewGUI extends JDialog {
         setModal(true);
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(600, 300));
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
 

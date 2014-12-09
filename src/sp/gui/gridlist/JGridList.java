@@ -61,7 +61,6 @@ public class JGridList extends JScrollPane {
 
 	public void setItems(List<ImageInfo> infoList) {
 		defaultListModel.clear();
-		thumbnails.clear();
 
 		int total = infoList.size();
 		int count = 0;
@@ -70,23 +69,27 @@ public class JGridList extends JScrollPane {
 			count++;
 			JDialog dialog = new JDialog(parent, "Loading... (" + count + " / " + total + ")", false);
 			dialog.setSize(new Dimension(300, 0));
+			dialog.setLocationRelativeTo(null);
 			dialog.setVisible(true);
 
 			defaultListModel.addElement(info);
 
-			BufferedImage image;
-			try {
-				image = ImageIO.read(info.getFile());
-			} catch (IOException e) {
-				continue;
+			if (!thumbnails.containsKey(info)) {
+
+				BufferedImage image;
+				try {
+					image = ImageIO.read(info.getFile());
+				} catch (IOException e) {
+					continue;
+				}
+
+				double ratio = Math.min((double) thumbSize / image.getWidth(), (double) thumbSize / image.getHeight());
+				int newWidth = (int) (ratio * image.getWidth());
+				int newHeight = (int) (ratio * image.getHeight());
+
+				ImageIcon resizeImage = new ImageIcon(image.getScaledInstance(newWidth, newHeight, Image.SCALE_FAST));
+				thumbnails.put(info, resizeImage);
 			}
-
-			double ratio = Math.min((double) thumbSize / image.getWidth(), (double) thumbSize / image.getHeight());
-			int newWidth = (int) (ratio * image.getWidth());
-			int newHeight = (int) (ratio * image.getHeight());
-
-			ImageIcon resizeImage = new ImageIcon(image.getScaledInstance(newWidth, newHeight, Image.SCALE_FAST));
-			thumbnails.put(info, resizeImage);
 			dialog.setVisible(false);
 		}
 
